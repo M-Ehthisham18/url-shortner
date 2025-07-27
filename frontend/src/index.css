@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+body{
+  background-color: rgb(26, 24, 24);
+  color: white
+}
+
+:root {
+  --screen-xs: 420px;
+}
