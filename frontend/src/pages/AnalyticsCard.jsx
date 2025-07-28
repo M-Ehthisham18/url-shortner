@@ -41,7 +41,7 @@ export default function AnalyticsCard({ data = null }) {
     if (res) {
       setShortUrl(
         `${
-          import.meta.env.MODE === "development" ? "http://localhost:8001" : "/"
+          import.meta.env.MODE === "development" ? "http://localhost:8001" : import.meta.env.BACKEND_URL
         }/${res.shortId}`
       );
       setOriginalUrl(res?.originalURl);

@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import axiosInstance from '../libs/axios';
 
 const BASE_URL =
-  import.meta.env.MODE === "development" ? "http://localhost:8001" : "/";
+  import.meta.env.MODE === "development" ? "http://localhost:8001" : import.meta.env.BACKEND_URL;
 
 export const useUrlStore = create((set,get) => ({
 
@@ -32,7 +32,7 @@ export const useUrlStore = create((set,get) => ({
       set({ shortenedUrl: res.data });
       return res.data;
     } else if( originalUrl){
-      const res = await axiosInstance.post ('/url',{url: originalUrl});
+      const res = await axiosInstance.post('/url',{url: originalUrl});
       toast.success("URL shortened successfully!");
       set({ shortenedUrl: res.data});
       return res.data;
