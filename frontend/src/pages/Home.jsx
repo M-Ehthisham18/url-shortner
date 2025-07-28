@@ -38,8 +38,7 @@ function Home() {
     }
 
     const shortId = `${
-      import.meta.env.MODE === "development" ? "http://localhost:8001" : import.meta.env.BACKEND_URL
-    }/${res.id}`;
+      import.meta.env.MODE === "development" ? "http://localhost:8001" : import.meta.env.BACKEND_URL}/${res.id}`;
 
     // Show loading for at least 1 second
     setTimeout(() => {
