@@ -15,8 +15,6 @@ const generateNewShortUrl = async (req, res) => {
 
     const existingUrl = await URL.findOne({ redirectUrl: url });
     if (existingUrl) {
-      console.log(existingUrl.shortId);
-
       return res
         .status(200)
         .json({ id: existingUrl.shortId, message: "existing shorturl" });
@@ -32,7 +30,7 @@ const generateNewShortUrl = async (req, res) => {
 
     return res.status(201).json({ id: newUrl.shortId });
   } catch (error) {
-    console.error("Error creating short URL:", error);
+    console.log("Error creating short URL:", error);
     return res.status(500).json({
       error: "Internal Server Error",
       message: "Something went wrong while shortening the URL.",
@@ -44,7 +42,6 @@ const generateNewShortUrl = async (req, res) => {
 const handleRedirectUrl = async (req, res) => {
   try {
     const { shortId } = req.params;
-    console.log(`Redirecting for shortId: ${shortId}`);
 
     const entry = await URL.findOneAndUpdate(
       { shortId },
@@ -60,7 +57,7 @@ const handleRedirectUrl = async (req, res) => {
 
     return res.redirect(entry.redirectUrl);
   } catch (error) {
-    console.error("Error redirecting URL:", error);
+    console.log("Error redirecting URL:", error);
     return res.status(500).json({
       error: "Internal Server Error",
       message: "Something went wrong while redirecting.",
@@ -89,7 +86,7 @@ const handleCustomShortUrl = async (req, res) => {
     });
     return res.status(201).json({ id: newUrl.shortId, message: "Custom short URL created successfully." });
   } catch (error) {
-    console.error("Error creating custom short URL:", error);
+    console.log("Error creating custom short URL:", error);
     return res.status(500).json({
       error: "Internal Server Error",
       message: "Something went wrong while creating the custom short URL.",
@@ -97,4 +94,34 @@ const handleCustomShortUrl = async (req, res) => {
   }
 };
 
-export { generateNewShortUrl, handleRedirectUrl, handleCustomShortUrl };
+const handleUrlAnalytics = async (req, res) => {
+  const {shortId} = req.params;
+  try {
+    const urlData = await URL.findOne({shortId});
+    if (!urlData){
+      return res.status(404).json({
+        error: "Not Found",
+        message : "No URL found for the provided shortId"
+      });
+    };
+    return res.status(200).json({
+      shortId : urlData.shortId,
+      originalURl : urlData.redirectUrl,
+      visitedCount : urlData.visitHistory.length,
+      visitedHistory: urlData.visitHistory.map((visit) => {
+        return{
+          timestamp: visit.timestamp
+        }
+      })
+    });
+    
+  } catch (error) {
+    console.log("Error creating custom short URL:", error);
+    return res.status(500).json({
+      error: "Internal Server Error",
+      message: "Something went wrong while creating the custom short URL.",
+    });
+  }
+};
+
+export { generateNewShortUrl, handleRedirectUrl, handleCustomShortUrl,handleUrlAnalytics };

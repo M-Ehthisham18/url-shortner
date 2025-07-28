@@ -19,6 +19,7 @@ export const useUrlStore = create((set,get) => ({
   qrUrl: "",  
 
   urlShortner : async (data) => {
+    set({isLoading : true});
   try {
     set({ isShortUrlGenerating : true})
     const { originalUrl, customAlias } = data;
@@ -28,13 +29,11 @@ export const useUrlStore = create((set,get) => ({
         customId: customAlias,
       });
       toast.success("URL shortened successfully!");
-      console.log(res.data);
       set({ shortenedUrl: res.data });
       return res.data;
     } else if( originalUrl){
       const res = await axiosInstance.post ('/url',{url: originalUrl});
       toast.success("URL shortened successfully!");
-      console.log(res.data);
       set({ shortenedUrl: res.data});
       return res.data;
     } else {
@@ -44,25 +43,39 @@ export const useUrlStore = create((set,get) => ({
     console.log("Shortening failed", error);
     toast.error("URL shortening failed");
   } finally {
-    set({isShortUrlGenerating : false})
+    set({isLoading : false});
+    set({isShortUrlGenerating : false});
   }
 },
 
 redirectUrl : async ({shortId}) => {
+
   try {
-    log("Redirecting to shortId:", shortId);
     if (!shortId) {
       toast.error("Short ID is required for redirection");
       return;
     }
     const res = await axiosInstance.get(`/${shortId}`);
-    console.log("Redirecting to:", res.data);
     window.location.href = res.data;  
     return res.data;
   } catch (error) {
     console.log("Redirection failed", error);
     toast.error("URL redirection failed");
     
+  }
+},
+urlAnalytics : async ({shortId}) => {
+  set({isLoading : true});
+  try {
+    
+    const res = await axiosInstance.get(`/${shortId}/analytics`);
+    if (!res.data) return ;
+    return res.data;
+  } catch (error) {
+    console.log("Fetching analytics failed", error);
+    toast.error("Failed to fetch URL analytics");
+  } finally {
+    set({isLoading : false});
   }
 }
 }));
