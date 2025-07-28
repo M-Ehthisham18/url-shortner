@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import router from './routes/url.routes.js';
 import connectDB from './database/connectDB.js';
 import { handleRedirectUrl,handleCustomShortUrl,handleUrlAnalytics,generateNewShortUrl } from './controllers/url.controller.js';
 import dotenv from 'dotenv';
