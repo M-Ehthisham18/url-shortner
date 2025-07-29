@@ -38,7 +38,10 @@ function Home() {
     }
 
     const shortId = `${
-      import.meta.env.MODE === "development" ? "http://localhost:8001" : import.meta.env.BACKEND_URL}/${res.id}`;
+      import.meta.env.MODE === "development"
+        ? "http://localhost:8001"
+        : import.meta.env.VITE_BACKEND_URL
+    }/${res.id}`;
 
     // Show loading for at least 1 second
     setTimeout(() => {
@@ -142,7 +145,7 @@ function Home() {
             onClick={handleShorten}
             className="bg-green-600 w-full py-2 rounded hover:bg-green-500 text-white font-semibold flex items-center justify-center gap-2 cursor-pointer"
           >
-            <Link className="w-5"/> Shorten URL
+            <Link className="w-5" /> Shorten URL
           </button>
           <button
             onClick={handleGenerateQR}
@@ -198,7 +201,7 @@ function Home() {
                     }}
                     className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-500 flex justify-even items-center gap-2 cursor-pointer"
                   >
-                    <Download className="w-5 h-5" /> <span >Download</span>
+                    <Download className="w-5 h-5" /> <span>Download</span>
                   </button>
 
                   <button
@@ -230,7 +233,7 @@ function Home() {
                     }}
                     className="bg-green-600 px-4 py-2 rounded hover:bg-green-500 flex justify-center items-center gap-2 w-[120px] cursor-pointer"
                   >
-                    <Share2 className="w-5 h-5"/> Share
+                    <Share2 className="w-5 h-5" /> Share
                   </button>
                 </div>
               </>
@@ -240,7 +243,7 @@ function Home() {
         <div className="flex justify-end">
           <button
             disabled={!shortenedUrl}
-            className="px-6 py-2 bg-blue-700/60 rounded-lg text-xl disabled:hidden hover:bg-blue-600/80 cursor-pointer" 
+            className="px-6 py-2 bg-blue-700/60 rounded-lg text-xl disabled:hidden hover:bg-blue-600/80 cursor-pointer"
             onClick={() => {
               if (shortenedUrl) {
                 nav(`/${shortenedUrl.split("/").pop()}/analytics`);

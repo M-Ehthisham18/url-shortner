@@ -5,7 +5,7 @@ import { handleRedirectUrl,handleCustomShortUrl,handleUrlAnalytics,generateNewSh
 import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 8001;
+const PORT = 8001;
 
 connectDB();
 app.use(express.json());

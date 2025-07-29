@@ -74,7 +74,7 @@ const handleCustomShortUrl = async (req, res) => {
         message: "Please provide a valid URL and custom short ID.",
       });
     }
-    if(customId.length < 8 ) return res.status(400).json({message: "Custom ID must be at least 8 characters long."});
+    if(customId.length < 6 ) return res.status(400).json({message: "Custom ID must be at least 6 characters long."});
 
     const existingCustomId = await URL.findOne({shortId : customId});
     if (existingCustomId) return res.status(400).json({message: "Custom ID already exists."});

@@ -22,7 +22,6 @@ export default function AnalyticsCard({ data = null }) {
   const [visitHistory, setVisityHistory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-
   const itemsPerPage = 10;
 
   const sortedVisitHistory = [...visitHistory].sort(
@@ -41,7 +40,9 @@ export default function AnalyticsCard({ data = null }) {
     if (res) {
       setShortUrl(
         `${
-          import.meta.env.MODE === "development" ? "http://localhost:8001" : import.meta.env.BACKEND_URL
+          import.meta.env.MODE === "development"
+            ? "http://localhost:8001"
+            : import.meta.env.VITE_BACKEND_URL
         }/${res.shortId}`
       );
       setOriginalUrl(res?.originalURl);
@@ -147,7 +148,9 @@ export default function AnalyticsCard({ data = null }) {
                       index % 2 === 0 ? "bg-zinc-900" : "bg-zinc-800"
                     }`}
                   >
-                    <td className="py-2 px-4">{(index + 1)+(itemsPerPage * (currentPage - 1 ))}</td>
+                    <td className="py-2 px-4">
+                      {index + 1 + itemsPerPage * (currentPage - 1)}
+                    </td>
                     <td className="py-2 px-4">
                       {format(new Date(visit.timestamp), "dd-MM-yyyy")}
                     </td>
