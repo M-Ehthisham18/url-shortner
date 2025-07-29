@@ -30,7 +30,7 @@ function Home() {
     setShortenedUrl("");
     setQrUrl("");
     setIsWaitingToShowUrl(true); // start the 1s loading...
-    setOriginalUrl("");
+    
     const res = await urlShortner({ originalUrl, customAlias });
     if (!res) {
       setIsWaitingToShowUrl(false);
@@ -48,6 +48,10 @@ function Home() {
       setShortenedUrl(shortId);
       setIsWaitingToShowUrl(false);
     }, 1000);
+    if(res.shortId){
+      setOriginalUrl("");
+      setCustomAlias("");
+    }
   };
 
   const handleGenerateQR = () => {

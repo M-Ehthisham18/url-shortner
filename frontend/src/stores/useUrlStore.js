@@ -29,13 +29,13 @@ export const useUrlStore = create((set, get) => ({
           url: originalUrl,
           customId: customAlias,
         });
-        toast.success("URL shortened successfully!");
+        toast.success(res?.data?.message ||"URL shortened successfully!");
         set({ shortenedUrl: res.data });
         return res.data;
       } else if (originalUrl) {
 
         const res = await axiosInstance.post("/url", { url: originalUrl });
-        toast.success("URL shortened successfully!");
+        toast.success(res?.data?.message ||"URL shortened successfully!");
         set({ shortenedUrl: res.data });
         return res.data;
       } else {
