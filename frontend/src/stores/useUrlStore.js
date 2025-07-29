@@ -33,7 +33,6 @@ export const useUrlStore = create((set, get) => ({
         set({ shortenedUrl: res.data });
         return res.data;
       } else if (originalUrl) {
-        console.log(axiosInstance.post("/url", { url: originalUrl }));
 
         const res = await axiosInstance.post("/url", { url: originalUrl });
         toast.success("URL shortened successfully!");
