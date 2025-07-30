@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from './database/connectDB.js';
 import { handleRedirectUrl,handleCustomShortUrl,handleUrlAnalytics,generateNewShortUrl } from './controllers/url.controller.js';
+import adminRouter from './routes/adminRouter.js';
 import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
@@ -19,5 +20,7 @@ app.post('/url', generateNewShortUrl)
 app.post('/custom-url', handleCustomShortUrl)
 app.get('/:shortId',handleRedirectUrl)
 app.get('/:shortId/analytics',handleUrlAnalytics)
+
+app.use('/admin', adminRouter)
 
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));;
